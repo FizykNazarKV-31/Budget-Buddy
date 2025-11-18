@@ -1,0 +1,9 @@
+body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+.balance-card { background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center; }
+.actions { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+input { padding: 10px; flex-grow: 1; }
+.btn { padding: 10px 20px; cursor: pointer; border: none; color: white; }
+.income { background-color: #2ecc71; }
+.expense { background-color: #e74c3c; }
+ul { list-style: none; padding: 0; }
+li { padding: 10px; border-bottom: 1px solid #eee; }
