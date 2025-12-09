@@ -1,0 +1,43 @@
+name: Budget Buddy CI/CD
+
+# Завдання: При додаванні змін до репозиторію (push) 
+on:
+  push:
+    branches: [ "main" ]
+
+# Потрібні права для створення релізів
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Перевірка коду (стандартний крок)
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Вивід інформації про автора 
+      - name: Print Author Info
+        run: |
+          echo "Workflow initiated by: ${{ github.actor }}"
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+
+      # 3. Автоматичне збирання додатку 
+      # Оскільки у нас HTML/JS, "збиранням" буде створення архіву з файлами проєкту
+      - name: Build Project (Create Archive)
+        run: |
+          mkdir build
+          zip -r build/budget-buddy.zip . -x ".git/*" ".github/*"
+
+      # 4. Публікація реліза в репозиторії GitHub
+      # Створюємо реліз із тегом, що базується на номері запуску (v1.0.X)
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Release v1.0.${{ github.run_number }}
+          files: build/budget-buddy.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
